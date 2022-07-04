@@ -18,18 +18,19 @@ class Tree
 public:
 	struct Elem
 	{
-		string key;
+		int key;
 		List list;
 		Elem *left, *right, *parent;
 	};
 	Elem *root;
 	Tree();
 	~Tree();
-	void Print(Elem *Node);
-	Elem *Search(Elem *Node, string key);
-	Elem *Min(Elem *Node);
-	Elem *Next(Elem *Node);
-	void Insert(Elem *z);
-	void Del(Elem *z = 0);
-	Elem *GetRoot();
+	void print(Elem *Node);
+	Elem *search(Elem *Node, int key);
+	Elem *min(Elem *Node);
+	Elem *next(Elem *Node);
+	void insert(Elem *z);
+	void del(Elem *z = 0);
+	Elem *getRoot();
+	void add(int key, List list, Elem *&elem);
 };

@@ -6,19 +6,19 @@ Tree::Tree()
 }
 Tree::~Tree()
 {
-	Del();
+	del();
 }
 //Рекурсивный обход дерева
-void Tree::Print(Elem *Node)
+void Tree::print(Elem *Node)
 {
 	if (Node != 0)
 	{
-		Print(Node->left);
-		Node->list.Print();
-		Print(Node->right);
+		print(Node->left);
+		Node->list.print();
+		print(Node->right);
 	}
 }
-Tree::Elem *Tree::Search(Elem *Node, string k)
+Tree::Elem *Tree::search(Elem *Node, int k)
 {
 	//Пока есть узлы и ключи не совпадают
 	while (Node != 0 && k == Node->key)
@@ -30,7 +30,7 @@ Tree::Elem *Tree::Search(Elem *Node, string k)
 	}
 	return Node;
 }
-Tree::Elem *Tree::Min(Elem *Node)
+Tree::Elem *Tree::min(Elem *Node)
 {
 	//Поиск самого "левого" узла
 	if (Node != 0)
@@ -38,14 +38,14 @@ Tree::Elem *Tree::Min(Elem *Node)
 			Node = Node->left;
 	return Node;
 }
-Tree::Elem *Tree::Next(Elem *Node)
+Tree::Elem *Tree::next(Elem *Node)
 {
 	Elem *y = 0;
 	if (Node != 0)
 	{
 		//если есть правый потомок
 		if (Node->right != 0)
-			return Min(Node->right);
+			return min(Node->right);
 		//родитель узла
 		y = Node->parent;
 		//если Node не корень и Node справа
@@ -59,11 +59,32 @@ Tree::Elem *Tree::Next(Elem *Node)
 	return y;
 }
 
-Tree::Elem *Tree::GetRoot()
+Tree::Elem *Tree::getRoot()
 {
 	return root;
 }
-void Tree::Insert(Elem *z)
+void Tree::add(int key, List list, Elem *&elem)
+{
+	if (elem == NULL)
+	{
+		elem = new Elem;
+		elem->key = key;
+		elem->list = list;
+		elem->left = nullptr;
+		elem->right = nullptr;
+		elem->parent = nullptr;
+		return;
+	}
+	if (key > elem->key)
+	{
+		add(key, list, elem->right);
+	}
+	else
+	{
+		add(key, list, elem->left);
+	}
+}
+void Tree::insert(Elem *z)
 {
 	//потомков нет
 	z->left = NULL;
@@ -90,7 +111,7 @@ void Tree::Insert(Elem *z)
 	else
 		y->right = z;
 }
-void Tree::Del(Elem *z)
+void Tree::del(Elem *z)
 {
 	//удаление куста
 	if (z != 0)
@@ -100,7 +121,7 @@ void Tree::Del(Elem *z)
 		if (z->left == 0 || z->right == 0)
 			y = z;
 		else
-			y = Next(z);
+			y = next(z);
 		if (y->left != 0)
 			Node = y->left;
 		else
@@ -126,5 +147,5 @@ void Tree::Del(Elem *z)
 	}
 	else //удаление всего дерева
 		while (root != 0)
-			Del(root);
+			del(root);
 }

@@ -13,3 +13,18 @@ Fine::Fine(string number_auto, string name_fine, int price)
 	this->name_fine = name_fine;
 	this->price = price;
 }
+
+string Fine::getNumberAuto()
+{
+	return number_auto;
+}
+
+string Fine::getNameFine()
+{
+	return name_fine;
+}
+
+int Fine::getPrice()
+{
+	return price;
+}

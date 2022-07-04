@@ -2,48 +2,48 @@
 
 List::List()
 {
-	Head = Tail = NULL;
-	Count = 0;
+	head = tail = NULL;
+	count = 0;
 }
 List::~List()
 {
-	DelAll();
+	delAll();
 }
-int List::GetCount()
+int List::getCount()
 {
-	return Count;
+	return count;
 }
-void List::Add(string number_auto, string name_fine, int price)
+void List::add(string number_auto, string name_fine, int price)
 {
 	Element *temp = new Element;
 	temp->f = Fine(number_auto, name_fine, price);
-	temp->Next = NULL;
-	if (Head != NULL) {
-		Tail->Next = temp;
-		Tail = temp;
+	temp->next = NULL;
+	if (head != NULL) {
+		tail->next = temp;
+		tail = temp;
 	}
 	else {
-		Head = Tail = temp;
+		head = tail = temp;
 	}
 }
-void List::Del()
+void List::del()
 {
-	Element *temp = Head;
-	Head = Head->Next;
+	Element *temp = head;
+	head = head->next;
 	delete temp;
 }
-void List::DelAll()
+void List::delAll()
 {
-	while (Head != 0)
-		Del();
+	while (head != 0)
+		del();
 }
-void List::Print()
+void List::print()
 {
-	Element *temp = Head;
+	Element *temp = head;
 	while (temp != 0)
 	{
-		cout << temp->f.number_auto << " " << temp->f.name_fine << " " << temp->f.price << "\n";
-		temp = temp->Next;
+		cout << temp->f.getNumberAuto() << " " << temp->f.getNameFine() << " " << temp->f.getPrice() << "\n";
+		temp = temp->next;
 	}
 	cout << "\n\n";
 }
