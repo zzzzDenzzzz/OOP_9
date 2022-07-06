@@ -2,150 +2,192 @@
 
 Tree::Tree()
 {
-	root = NULL;
-}
-Tree::~Tree()
-{
-	del();
-}
-//Рекурсивный обход дерева
-void Tree::print(Elem *Node)
-{
-	if (Node != 0)
-	{
-		print(Node->left);
-		Node->list.print();
-		print(Node->right);
-	}
-}
-Tree::Elem *Tree::search(Elem *Node, int k)
-{
-	//Пока есть узлы и ключи не совпадают
-	while (Node != 0 && k == Node->key)
-	{
-		if (Node->key < k)
-			Node = Node->left;
-		else
-			Node = Node->right;
-	}
-	return Node;
-}
-Tree::Elem *Tree::min(Elem *Node)
-{
-	//Поиск самого "левого" узла
-	if (Node != 0)
-		while (Node->left != 0)
-			Node = Node->left;
-	return Node;
-}
-Tree::Elem *Tree::next(Elem *Node)
-{
-	Elem *y = 0;
-	if (Node != 0)
-	{
-		//если есть правый потомок
-		if (Node->right != 0)
-			return min(Node->right);
-		//родитель узла
-		y = Node->parent;
-		//если Node не корень и Node справа
-		while (y != 0 && Node == y->right)
-		{
-			//Движемся вверх
-			Node = y;
-			y = y->parent;
-		}
-	}
-	return y;
+	root_tree = nullptr;
 }
 
-Tree::Elem *Tree::getRoot()
+Tree::~Tree()
 {
-	return root;
+	//del();
 }
-void Tree::add(int key, List list, Elem *&elem)
+
+Tree::TreeElement *Tree::next(TreeElement *node)
 {
-	if (elem == NULL)
+	TreeElement *tmp = nullptr;
+
+	if (node != nullptr)
 	{
-		elem = new Elem;
-		elem->key = key;
-		elem->list = list;
-		elem->left = nullptr;
-		elem->right = nullptr;
-		elem->parent = nullptr;
-		return;
-	}
-	if (key > elem->key)
-	{
-		add(key, list, elem->right);
-	}
-	else
-	{
-		add(key, list, elem->left);
-	}
-}
-void Tree::insert(Elem *z)
-{
-	//потомков нет
-	z->left = NULL;
-	z->right = NULL;
-	Elem *y = NULL;
-	Elem *Node = root;
-	//поиск места
-	while (Node != 0)
-	{
-		//будущий родитель
-		y = Node;
-		if (z->key > Node->key)
-			Node = Node->left;
-		else
-			Node = Node->right;
-	}
-	//заполняем родителя
-	z->parent = y;
-	if (y == 0) //элемент первый (единственный)
-		root = z;
-	//чей ключ больше?
-	else if (z->key > Node->key)
-		y->left = z;
-	else
-		y->right = z;
-}
-void Tree::del(Elem *z)
-{
-	//удаление куста
-	if (z != 0)
-	{
-		Elem *Node, *y;
-		//не 2 ребенка
-		if (z->left == 0 || z->right == 0)
-			y = z;
-		else
-			y = next(z);
-		if (y->left != 0)
-			Node = y->left;
-		else
-			Node = y->right;
-		if (Node != 0)
-			Node->parent = y->parent;
-		//Удаляется корневой узел?
-		if (y->parent == 0)
-			root = Node;
-		else if (y == y->parent->left)
-			//слева от родителя?
-			y->parent->left = Node;
-		else
-			//справа от родителя?
-			y->parent->right = Node;
-		if (y != z)
+		if (node->right != nullptr)
 		{
-			//Копирование данных узла
-			z->key = y->key;
-			z->list = y->list;
+			return min(node->right);
 		}
-		delete y;
+
+		tmp = node->parent;
+		while (tmp != nullptr and node == tmp->right)
+		{
+			node = tmp;
+			tmp = tmp->parent;
+		}
 	}
-	else //удаление всего дерева
-		while (root != 0)
-			del(root);
+	return tmp;
 }
+
+Tree::TreeElement *Tree::min(TreeElement *node)
+{
+	if (node != nullptr)
+	{
+		while (node->left != nullptr)
+		{
+			node = node->left;
+		}
+	}
+	return node;
+}
+
+void Tree::del(TreeElement *element)
+{
+	if (element != nullptr)
+	{
+		TreeElement *node;
+		TreeElement *tmp;
+
+		if (element->left == nullptr or element->right == nullptr)
+		{
+			tmp = element;
+		}
+		else
+		{
+			tmp = next(element);
+		}
+
+		if (tmp->left != nullptr)
+		{
+			node = tmp->left;
+		}
+		else
+		{
+			node = tmp->right;
+		}
+
+		if (node != nullptr)
+		{
+			node->parent = tmp->parent;
+		}
+
+		if (tmp->parent == nullptr)
+		{
+			root_tree = node;
+		}
+		else if (tmp == tmp->parent->left)
+		{
+			tmp->parent->left = node;
+		}
+		else
+		{
+			tmp->parent->right = node;
+		}
+
+		if (tmp != element)
+		{
+			element->list.getElement()->f.name_fine = tmp->list.getElement()->f.name_fine;
+			element->list.getElement()->f.number_auto = tmp->list.getElement()->f.number_auto;
+			element->list.getElement()->f.price = tmp->list.getElement()->f.price;
+		}
+		delete tmp;
+	}
+	else
+	{
+		while (root_tree != nullptr)
+		{
+			del(root_tree);
+		}
+	}
+}
+
+void Tree::print(TreeElement *node)
+{
+	if (node != nullptr)
+	{
+		print(node->left);
+		cout<<node->list.getElement()->f.number_auto << " ";
+		cout << node->list.getElement()->f.name_fine << " ";
+		cout << node->list.getElement()->f.price << endl;
+		print(node->right);
+	}
+}
+
+Tree::TreeElement *Tree::search(TreeElement *node, string key)
+{
+	while (node != nullptr and key != node->list.getElement()->f.number_auto)
+	{
+		if (node->list.getElement()->f.number_auto < key)
+		{
+			cout << "Left\n";
+			node = node->left;
+			node->list.print();
+		}
+		else
+		{
+			cout << "Right\n";
+			node = node->right;
+			node->list.print();
+		}
+	}
+	return node;
+}
+
+void Tree::insert(TreeElement *element)
+{
+	element->left = nullptr;
+	element->right = nullptr;
+
+	TreeElement *tmp = nullptr;
+	TreeElement *node = root_tree;
+
+	while (node != nullptr)
+	{
+		tmp = node;
+		if (element->list.getElement()->f.number_auto < node->list.getElement()->f.number_auto)
+		{
+			node = node->left;
+		}
+		else
+		{
+			node = node->right;
+		}
+	}
+
+	element->parent = tmp;
+	if (tmp == nullptr)
+	{
+		root_tree = element;
+	}
+	else if (element->list.getElement()->f.number_auto < tmp->list.getElement()->f.number_auto)
+	{
+		tmp->left = element;
+	}
+	else
+	{
+		tmp->right = element;
+	}
+}
+
+Tree::TreeElement *Tree::getRoot()
+{
+	return root_tree;
+}
+//
+//void Tree::add(List &list)
+//{
+//	Tree tree;
+//	if (root_tree == nullptr)
+//	{
+//		root_tree = new TreeElement;
+//		root_tree->list = list;
+//		insert(root_tree);
+//	}
+//	else
+//	{
+//		root_tree->left = new TreeElement;
+//		root_tree->right = new TreeElement;
+//	}
+//}

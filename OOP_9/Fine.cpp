@@ -2,29 +2,14 @@
 
 Fine::Fine()
 {
-	number_auto = "";
-	name_fine = "";
-	price = 0;
+	number_auto = "OOO";
+	name_fine = "X";
+	price = "0";
 }
 
-Fine::Fine(string number_auto, string name_fine, int price)
+Fine::Fine(const string number_auto, const string name_fine, const string price)
 {
 	this->number_auto = number_auto;
 	this->name_fine = name_fine;
 	this->price = price;
-}
-
-string Fine::getNumberAuto()
-{
-	return number_auto;
-}
-
-string Fine::getNameFine()
-{
-	return name_fine;
-}
-
-int Fine::getPrice()
-{
-	return price;
 }

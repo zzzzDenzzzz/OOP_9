@@ -3,26 +3,28 @@
 List::List()
 {
 	head = tail = NULL;
-	count = 0;
 }
 List::~List()
 {
 	delAll();
 }
-int List::getCount()
+
+Element *List::getElement()
 {
-	return count;
+	return &element;
 }
-void List::add(string number_auto, string name_fine, int price)
+void List::add(const string number_auto, const string name_fine, const string price)
 {
 	Element *temp = new Element;
 	temp->f = Fine(number_auto, name_fine, price);
-	temp->next = NULL;
-	if (head != NULL) {
+	element.f = temp->f;
+	temp->next = nullptr;
+	if (head != nullptr) {
 		tail->next = temp;
 		tail = temp;
 	}
-	else {
+	else 
+	{
 		head = tail = temp;
 	}
 }
@@ -34,16 +36,15 @@ void List::del()
 }
 void List::delAll()
 {
-	while (head != 0)
+	while (head != nullptr)
 		del();
 }
 void List::print()
 {
 	Element *temp = head;
-	while (temp != 0)
+	while (temp != nullptr)
 	{
-		cout << temp->f.getNumberAuto() << " " << temp->f.getNameFine() << " " << temp->f.getPrice() << "\n";
+		cout << temp->f.number_auto << " " << temp->f.name_fine << " " << temp->f.price << "\n";
 		temp = temp->next;
 	}
-	cout << "\n\n";
 }

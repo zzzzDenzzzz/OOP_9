@@ -6,13 +6,10 @@ using namespace std;
 
 class Fine
 {
+public:
 	string number_auto;
 	string name_fine;
-	int price;
-public:
+	string price;
 	Fine();
-	Fine(string number_auto, string name_fine, int price);
-	string getNumberAuto();
-	string getNameFine();
-	int getPrice();
+	Fine(const string number_auto, const string name_fine, const string price);
 };

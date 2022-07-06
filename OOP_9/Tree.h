@@ -1,36 +1,39 @@
 #pragma once
-
-#include <stdlib.h>
-#include <time.h>
-#include <stdio.h>
+ 
 #include"List.h"
 
 using namespace std;
 
-//struct Elem
+//struct TreeElement
 //{
 //	string key;
 //	List list;
-//	Elem *left, *right, *parent;
+//	TreeElement *left; 
+//	TreeElement *right;
+//	TreeElement *parent;
 //};
+
 class Tree
 {
+	//TreeElement *root_tree;
 public:
-	struct Elem
+	struct TreeElement
 	{
-		int key;
+		string key;
 		List list;
-		Elem *left, *right, *parent;
+		TreeElement *left;
+		TreeElement *right;
+		TreeElement *parent;
 	};
-	Elem *root;
+	TreeElement *root_tree;
 	Tree();
 	~Tree();
-	void print(Elem *Node);
-	Elem *search(Elem *Node, int key);
-	Elem *min(Elem *Node);
-	Elem *next(Elem *Node);
-	void insert(Elem *z);
-	void del(Elem *z = 0);
-	Elem *getRoot();
-	void add(int key, List list, Elem *&elem);
+	TreeElement *next(TreeElement *node);
+	TreeElement *min(TreeElement *node);
+	void del(TreeElement *element = nullptr);
+	void print(TreeElement *node);
+	TreeElement *search(TreeElement *node, string key);
+	void insert(TreeElement *element);
+	TreeElement *getRoot();
+	//void add(List &list);
 };

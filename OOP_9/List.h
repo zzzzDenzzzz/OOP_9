@@ -14,15 +14,15 @@ struct Element
 
 class List
 {
+	Element element;
 	Element *head;
 	Element *tail;
-	int count;
 public:
 	List();
 	~List();
-	void add(string number_auto, string name_fine, int price);
+	void add(const string number_auto, const string name_fine, const string price);
 	void del();
 	void delAll();
 	void print();
-	int getCount();
+	Element *getElement();
 };
