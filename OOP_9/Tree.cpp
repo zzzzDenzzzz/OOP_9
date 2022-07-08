@@ -2,192 +2,104 @@
 
 Tree::Tree()
 {
-	root_tree = nullptr;
+	root = nullptr;
 }
 
-Tree::~Tree()
+void Tree::insert(TreeNode *&tree_node, List &list)
 {
-	//del();
-}
-
-Tree::TreeElement *Tree::next(TreeElement *node)
-{
-	TreeElement *tmp = nullptr;
-
-	if (node != nullptr)
+	if (tree_node == nullptr)
 	{
-		if (node->right != nullptr)
-		{
-			return min(node->right);
-		}
-
-		tmp = node->parent;
-		while (tmp != nullptr and node == tmp->right)
-		{
-			node = tmp;
-			tmp = tmp->parent;
-		}
+		tree_node = new TreeNode;
+		tree_node->list = list;
+		tree_node->left = nullptr;
+		tree_node->right = nullptr;
 	}
-	return tmp;
 }
 
-Tree::TreeElement *Tree::min(TreeElement *node)
+void Tree::add(List &list, const string &number)
 {
-	if (node != nullptr)
+	TreeNode *tmp = nullptr;
+	if (root == nullptr)
 	{
-		while (node->left != nullptr)
-		{
-			node = node->left;
-		}
+		insert(root, list);
+		root->number_auto = number;
 	}
-	return node;
-}
-
-void Tree::del(TreeElement *element)
-{
-	if (element != nullptr)
+	else if (number < root->number_auto)
 	{
-		TreeElement *node;
-		TreeElement *tmp;
+		//tmp = root;
+		//while (root != nullptr)
+		//{
+		//	root = root->left;
+		//}
+		insert(root->left, list);
+		//root = tmp;
+		root->left->number_auto = number;
+	}
+	else if (number > root->number_auto)
+	{
+		//tmp = root;
+		//while (root != nullptr)
+		//{
+		//	root = root->right;
+		//}
+		insert(root->right, list);
+		//root = tmp;
+		root->right->number_auto = number;
 
-		if (element->left == nullptr or element->right == nullptr)
-		{
-			tmp = element;
-		}
-		else
-		{
-			tmp = next(element);
-		}
-
-		if (tmp->left != nullptr)
-		{
-			node = tmp->left;
-		}
-		else
-		{
-			node = tmp->right;
-		}
-
-		if (node != nullptr)
-		{
-			node->parent = tmp->parent;
-		}
-
-		if (tmp->parent == nullptr)
-		{
-			root_tree = node;
-		}
-		else if (tmp == tmp->parent->left)
-		{
-			tmp->parent->left = node;
-		}
-		else
-		{
-			tmp->parent->right = node;
-		}
-
-		if (tmp != element)
-		{
-			element->list.getElement()->f.name_fine = tmp->list.getElement()->f.name_fine;
-			element->list.getElement()->f.number_auto = tmp->list.getElement()->f.number_auto;
-			element->list.getElement()->f.price = tmp->list.getElement()->f.price;
-		}
-		delete tmp;
 	}
 	else
 	{
-		while (root_tree != nullptr)
-		{
-			del(root_tree);
-		}
+		cout << "ERROR!!!\n";
 	}
 }
 
-void Tree::print(TreeElement *node)
+void Tree::print(const string &number)
 {
-	if (node != nullptr)
+	TreeNode *tmp = root;
+	if (root == nullptr)
 	{
-		print(node->left);
-		cout<<node->list.getElement()->f.number_auto << " ";
-		cout << node->list.getElement()->f.name_fine << " ";
-		cout << node->list.getElement()->f.price << endl;
-		print(node->right);
-	}
-}
-
-Tree::TreeElement *Tree::search(TreeElement *node, string key)
-{
-	while (node != nullptr and key != node->list.getElement()->f.number_auto)
-	{
-		if (node->list.getElement()->f.number_auto < key)
-		{
-			cout << "Left\n";
-			node = node->left;
-			node->list.print();
-		}
-		else
-		{
-			cout << "Right\n";
-			node = node->right;
-			node->list.print();
-		}
-	}
-	return node;
-}
-
-void Tree::insert(TreeElement *element)
-{
-	element->left = nullptr;
-	element->right = nullptr;
-
-	TreeElement *tmp = nullptr;
-	TreeElement *node = root_tree;
-
-	while (node != nullptr)
-	{
-		tmp = node;
-		if (element->list.getElement()->f.number_auto < node->list.getElement()->f.number_auto)
-		{
-			node = node->left;
-		}
-		else
-		{
-			node = node->right;
-		}
-	}
-
-	element->parent = tmp;
-	if (tmp == nullptr)
-	{
-		root_tree = element;
-	}
-	else if (element->list.getElement()->f.number_auto < tmp->list.getElement()->f.number_auto)
-	{
-		tmp->left = element;
+		cout << "Is empty!!!\n";
 	}
 	else
 	{
-		tmp->right = element;
+		if (number < root->number_auto)
+		{
+			tmp = tmp->left;
+		}
+		if (number > root->number_auto)
+		{
+			tmp = tmp->right;
+		}
+		if (number == tmp->number_auto)
+		{
+			cout << number << ": \n";
+			tmp->list.print();
+		}
+		else
+		{
+			cout << "Not found!!!\n";
+		}
 	}
 }
 
-Tree::TreeElement *Tree::getRoot()
+void Tree::print()
 {
-	return root_tree;
+	if (root == nullptr)
+	{
+		return;
+	}
+	TreeNode *tmp = root;
+	while (tmp != nullptr)
+	{
+		cout << tmp->number_auto << ": \n";
+		tmp->list.print();
+		tmp = tmp->left;
+	}
+	tmp = root->right;
+	while (tmp != nullptr)
+	{
+		cout << tmp->number_auto << ": \n";
+		tmp->list.print();
+		tmp = tmp->right;
+	}
 }
-//
-//void Tree::add(List &list)
-//{
-//	Tree tree;
-//	if (root_tree == nullptr)
-//	{
-//		root_tree = new TreeElement;
-//		root_tree->list = list;
-//		insert(root_tree);
-//	}
-//	else
-//	{
-//		root_tree->left = new TreeElement;
-//		root_tree->right = new TreeElement;
-//	}
-//}

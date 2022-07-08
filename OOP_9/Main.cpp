@@ -1,29 +1,38 @@
 #include"List.h"
+#include"Fine.h"
 #include"Tree.h"
 
 int main()
 {
-	
-	List lst_1, lst_2, lst_3, lst_4;
-	lst_1.add("D777DD", "speed limit", "500");
-	lst_2.add("B666BB", "speed limit", "1500");
-	lst_3.add("C555CC", "speed limit", "1000");
-	lst_4.add("A333KK", "speed limit", "250");
+	Fine fine_1("SPEED", "500");
+	Fine fine_2("SPEED", "1000");
+	Fine fine_3("SPEED", "1500");
+	Fine fine_4("SPEED", "2000");
+	Fine fine_5("SPEED", "2500");
+
+	List list_1;
+	list_1.pushBack(fine_1);
+	list_1.pushBack(fine_2);
+	list_1.pushBack(fine_3);
+	list_1.pushBack(fine_4);
+	List list_2;
+	list_2.pushBack(fine_2);
+	list_2.pushBack(fine_3);
+	list_2.pushBack(fine_4);
+	List list_3;
+	list_3.pushBack(fine_3);
+	list_3.pushBack(fine_4);
+	List list_4;
+	list_4.pushBack(fine_5);
 
 	Tree tree;
-	Tree::TreeElement *l = new Tree::TreeElement;
-	l->list = lst_1;
-	tree.insert(l);
-	Tree::TreeElement *ll = new Tree::TreeElement;
-	ll->list = lst_2;
-	tree.insert(ll);
-	Tree::TreeElement *lll = new Tree::TreeElement;
-	lll->list = lst_3;
-	tree.insert(lll);
-	Tree::TreeElement *llll = new Tree::TreeElement;
-	llll->list = lst_4;
-	tree.insert(llll);
-	tree.print(l);
-
+	tree.add(list_1, "D999DD");
+	tree.add(list_2, "B777BB");
+	tree.add(list_3, "E555EE");
+	//tree.add(list_4, "A333AA");
+	tree.print();
+	tree.print("B777BB");
+	tree.print("A777BB");
+	
 	return 0;
 }

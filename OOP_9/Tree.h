@@ -4,36 +4,21 @@
 
 using namespace std;
 
-//struct TreeElement
-//{
-//	string key;
-//	List list;
-//	TreeElement *left; 
-//	TreeElement *right;
-//	TreeElement *parent;
-//};
+struct TreeNode
+{
+	List list;
+	string number_auto;
+	TreeNode *left; 
+	TreeNode *right;
+};
 
 class Tree
 {
-	//TreeElement *root_tree;
+	TreeNode *root;
 public:
-	struct TreeElement
-	{
-		string key;
-		List list;
-		TreeElement *left;
-		TreeElement *right;
-		TreeElement *parent;
-	};
-	TreeElement *root_tree;
 	Tree();
-	~Tree();
-	TreeElement *next(TreeElement *node);
-	TreeElement *min(TreeElement *node);
-	void del(TreeElement *element = nullptr);
-	void print(TreeElement *node);
-	TreeElement *search(TreeElement *node, string key);
-	void insert(TreeElement *element);
-	TreeElement *getRoot();
-	//void add(List &list);
+	void insert(TreeNode *&tree_node, List &list);
+	void add(List &list, const string &number);
+	void print(const string &number);
+	void print();
 };

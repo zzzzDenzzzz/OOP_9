@@ -2,49 +2,79 @@
 
 List::List()
 {
-	head = tail = NULL;
-}
-List::~List()
-{
-	delAll();
+	node = nullptr;
+	first = nullptr;
+	last = nullptr;
 }
 
-Element *List::getElement()
+bool List::isEmpty()
 {
-	return &element;
+	return first == nullptr;
 }
-void List::add(const string number_auto, const string name_fine, const string price)
+
+void List::pushBack(Fine &fine)
 {
-	Element *temp = new Element;
-	temp->f = Fine(number_auto, name_fine, price);
-	element.f = temp->f;
-	temp->next = nullptr;
-	if (head != nullptr) {
-		tail->next = temp;
-		tail = temp;
-	}
-	else 
+	Node *node = new Node;
+	node->fine = fine;
+	node->next = nullptr;
+	if (isEmpty())
 	{
-		head = tail = temp;
+		first = node;
+		last = node;
+		return;
 	}
+	last->next = node;
+	last = node;
 }
-void List::del()
+
+void List::removeFirstNode()
 {
-	Element *temp = head;
-	head = head->next;
-	delete temp;
+	if (isEmpty())
+	{
+		return;
+	}
+	Node *node = first;
+	first = node->next;
+	delete node;
 }
-void List::delAll()
+
+void List::removeLastNode()
 {
-	while (head != nullptr)
-		del();
+	if (isEmpty())
+	{
+		return;
+	}
+	if (first == last)
+	{
+		removeFirstNode();
+		return;
+	}
+	Node *node = first;
+	while (node->next != last)
+	{
+		node = node->next;
+	}
+	node->next = nullptr;
+	delete last;
+	last = node;
 }
+
 void List::print()
 {
-	Element *temp = head;
-	while (temp != nullptr)
+	if (isEmpty())
 	{
-		cout << temp->f.number_auto << " " << temp->f.name_fine << " " << temp->f.price << "\n";
-		temp = temp->next;
+		return;
 	}
+	Node *node = first;
+	while (node)
+	{
+		cout << node->fine.name_fine << " " << node->fine.price << endl;
+		node = node->next;
+	}
+	cout << endl;
+}
+
+Node *List::getNode()
+{
+	return node;
 }

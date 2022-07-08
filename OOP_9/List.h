@@ -6,23 +6,23 @@
 
 using namespace std;
 
-struct Element
+struct Node
 {
-	Fine f;
-	Element *next;
+	Fine fine;
+	Node *next;
 };
 
 class List
 {
-	Element element;
-	Element *head;
-	Element *tail;
+	Node *node;
+	Node *first;
+	Node *last;
 public:
 	List();
-	~List();
-	void add(const string number_auto, const string name_fine, const string price);
-	void del();
-	void delAll();
+	bool isEmpty();
+	void pushBack(Fine &fine);
+	void removeFirstNode();
+	void removeLastNode();
 	void print();
-	Element *getElement();
+	Node *getNode();
 };
