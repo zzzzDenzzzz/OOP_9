@@ -26,25 +26,17 @@ void Tree::add(List &list, const string &number)
 	}
 	else if (number < root->number_auto)
 	{
-		//tmp = root;
-		//while (root != nullptr)
-		//{
-		//	root = root->left;
-		//}
 		insert(root->left, list);
-		//root = tmp;
 		root->left->number_auto = number;
 	}
 	else if (number > root->number_auto)
 	{
-		//tmp = root;
-		//while (root != nullptr)
-		//{
-		//	root = root->right;
-		//}
 		insert(root->right, list);
-		//root = tmp;
 		root->right->number_auto = number;
+
+	}
+	else if (number == root->number_auto)
+	{
 
 	}
 	else
